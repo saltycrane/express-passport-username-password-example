@@ -1,6 +1,6 @@
-# express-hello-world
+# express-passport-username-password-example
 
-Express.js Hello World tutorial: https://expressjs.com/en/starter/installing.html
+Express.js + Passport.js local username + password authentication example: https://www.passportjs.org/tutorials/password/
 
 ## Usage
 
