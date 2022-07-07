@@ -1,6 +1,9 @@
 # express-passport-username-password-example
 
-Express.js + Passport.js local username + password authentication example: https://www.passportjs.org/tutorials/password/
+Express.js + Passport.js local username + password authentication example from:
+
+- https://www.passportjs.org/tutorials/password/
+- https://github.com/passport/todos-express-starter
 
 ## Usage
 

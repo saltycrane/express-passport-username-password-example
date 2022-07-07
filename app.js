@@ -1,12 +1,27 @@
+const connectSqlite = require("connect-sqlite3");
 const crypto = require("crypto");
 const express = require("express");
+const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const db = require("./db");
 
 const PORT = 3000;
 
-// configure passport local authentication
+const SQLiteStore = connectSqlite(session);
+
+passport.serializeUser((user, cb) => {
+  process.nextTick(function () {
+    cb(null, { id: user.id, username: user.username });
+  });
+});
+
+passport.deserializeUser((user, cb) => {
+  process.nextTick(function () {
+    return cb(null, user);
+  });
+});
+
 passport.use(
   new LocalStrategy((username, password, cb) => {
     db.get("SELECT * FROM users WHERE username = ?", [username], (err, row) => {
@@ -45,6 +60,15 @@ const app = express();
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false }));
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: false,
+    store: new SQLiteStore({ db: "sessions.db", dir: "./var/db" }),
+  })
+);
+app.use(passport.authenticate("session"));
 
 app.get("/", (req, res) => {
   res.render("index");
